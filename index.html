@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alaris + Epic Integration | Clinical Systems Adoption Portfolio</title>
+  <style>
+    /* ─── Reset & Variables ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal-900: #0f4c4c;
+      --teal-800: #0d6e6e;
+      --teal-700: #0e7e7e;
+      --teal-600: #0d9488;
+      --teal-500: #14b8a6;
+      --teal-400: #2dd4bf;
+      --teal-300: #5eead4;
+      --teal-200: #99f6e4;
+      --teal-100: #ccfbf1;
+      --teal-50:  #f0fdfa;
+      --white:    #ffffff;
+      --gray-50:  #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.1);
+      --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 12px rgba(0,0,0,.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,.1), 0 4px 10px rgba(0,0,0,.07);
+      --shadow-xl: 0 20px 40px rgba(0,0,0,.12);
+      --radius: 12px;
+      --radius-lg: 20px;
+      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      color: var(--gray-800);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── Utilities ─────────────────────────────────────────────── */
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 96px 0; }
+    .section--alt { background: var(--teal-50); }
+    .section--dark { background: var(--teal-900); color: var(--white); }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 14px; border-radius: 999px; font-size: .75rem;
+      font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+      background: var(--teal-100); color: var(--teal-700);
+    }
+
+    .section-label { text-align: center; margin-bottom: 12px; }
+
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700; line-height: 1.2;
+      color: var(--gray-900); text-align: center; margin-bottom: 16px;
+    }
+    .section--dark .section-title { color: var(--white); }
+
+    .section-sub {
+      font-size: 1.05rem; color: var(--gray-600);
+      text-align: center; max-width: 620px; margin: 0 auto 56px;
+    }
+    .section--dark .section-sub { color: var(--teal-300); }
+
+    .highlight { color: var(--teal-600); }
+    .highlight-white { color: var(--teal-300); }
+
+    /* ─── Nav ──────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 999;
+      background: rgba(255,255,255,.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: var(--shadow-md); }
+
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 700; font-size: 1rem; color: var(--teal-700); text-decoration: none;
+    }
+
+    .nav-brand svg { width: 32px; height: 32px; }
+
+    .nav-links {
+      display: flex; gap: 4px; list-style: none;
+    }
+
+    .nav-links a {
+      padding: 6px 14px; border-radius: 8px; text-decoration: none;
+      font-size: .88rem; font-weight: 500; color: var(--gray-600);
+      transition: background .2s, color .2s;
+    }
+    .nav-links a:hover { background: var(--teal-50); color: var(--teal-700); }
+
+    .nav-cta {
+      padding: 9px 22px; border-radius: 999px; text-decoration: none;
+      font-size: .88rem; font-weight: 600; background: var(--teal-600);
+      color: var(--white); transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--teal-700); transform: translateY(-1px); }
+
+    .nav-hamburger { display: none; }
+
+    /* ─── Hero ─────────────────────────────────────────────────── */
+    .hero {
+      padding: 140px 0 100px;
+      background: linear-gradient(135deg, var(--teal-900) 0%, var(--teal-700) 50%, var(--teal-600) 100%);
+      position: relative; overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(20,184,166,.3), transparent);
+    }
+
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+      position: relative; z-index: 1;
+    }
+
+    .hero-badge { margin-bottom: 20px; }
+    .hero-badge .badge { background: rgba(204,251,241,.15); color: var(--teal-200); border: 1px solid rgba(204,251,241,.3); }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800; line-height: 1.15;
+      color: var(--white); margin-bottom: 20px;
+    }
+
+    .hero h1 em { font-style: normal; color: var(--teal-300); }
+
+    .hero-desc {
+      font-size: 1.1rem; color: rgba(255,255,255,.8); margin-bottom: 36px; line-height: 1.7;
+    }
+
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .btn-primary {
+      padding: 13px 30px; border-radius: 999px; font-size: 1rem; font-weight: 600;
+      background: var(--white); color: var(--teal-700); text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-xl); }
+
+    .btn-outline {
+      padding: 13px 30px; border-radius: 999px; font-size: 1rem; font-weight: 600;
+      border: 2px solid rgba(255,255,255,.4); color: var(--white); text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.1); }
+
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+      margin-top: 56px; padding-top: 44px; border-top: 1px solid rgba(255,255,255,.15);
+    }
+
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-size: 2rem; font-weight: 800; color: var(--teal-300); display: block; }
+    .hero-stat-label { font-size: .82rem; color: rgba(255,255,255,.7); margin-top: 4px; }
+
+    /* Hero visual */
+    .hero-visual {
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,.1); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.2); border-radius: var(--radius-lg);
+      padding: 32px; width: 100%; max-width: 420px;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .hero-card-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+
+    .hero-card-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--teal-500); display: flex; align-items: center; justify-content: center;
+    }
+
+    .hero-card-title { font-size: 1rem; font-weight: 700; color: var(--white); }
+    .hero-card-sub { font-size: .8rem; color: var(--teal-300); }
+
+    .flow-mini {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .flow-mini-step {
+      display: flex; align-items: center; gap: 14px;
+      background: rgba(255,255,255,.07); border-radius: 10px; padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,.1);
+      animation: fadeSlide .5s ease both;
+    }
+
+    .flow-mini-step:nth-child(1) { animation-delay: .1s; }
+    .flow-mini-step:nth-child(2) { animation-delay: .3s; }
+    .flow-mini-step:nth-child(3) { animation-delay: .5s; }
+    .flow-mini-step:nth-child(4) { animation-delay: .7s; }
+    .flow-mini-step:nth-child(5) { animation-delay: .9s; }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .flow-mini-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--teal-400); flex-shrink: 0;
+    }
+
+    .flow-mini-text { font-size: .85rem; color: rgba(255,255,255,.85); font-weight: 500; }
+    .flow-mini-sub  { font-size: .75rem; color: var(--teal-300); }
+
+    /* ─── Cards ────────────────────────────────────────────────── */
+    .card {
+      background: var(--white); border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-sm); padding: 28px;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--teal-300); }
+
+    .card-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: var(--teal-100); color: var(--teal-600);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px; font-size: 1.4rem;
+    }
+
+    .card h3 { font-size: 1.1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+    .card p  { font-size: .92rem; color: var(--gray-600); line-height: 1.65; }
+
+    /* ─── Overview Cards Grid ───────────────────────────────────── */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+
+    /* ─── Integration Flow Section ──────────────────────────────── */
+    .flow-section { padding: 96px 0; }
+
+    .flow-wrapper {
+      display: flex; flex-direction: column; gap: 0; position: relative;
+    }
+
+    .flow-row {
+      display: grid; grid-template-columns: 1fr 80px 1fr; align-items: stretch;
+      gap: 0; position: relative;
+    }
+
+    .flow-actor {
+      display: flex; flex-direction: column; justify-content: flex-start;
+      padding: 0 20px 0 0;
+    }
+
+    .flow-actor.right { padding: 0 0 0 20px; }
+
+    .flow-actor-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 18px; border-radius: 999px; font-size: .8rem; font-weight: 600;
+      background: var(--teal-100); color: var(--teal-700); white-space: nowrap;
+      width: fit-content; margin-bottom: 14px;
+    }
+
+    .flow-step-card {
+      background: var(--white); border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius); padding: 18px 20px;
+      position: relative; cursor: default;
+      transition: all .3s;
+    }
+
+    .flow-step-card:hover {
+      border-color: var(--teal-400); box-shadow: 0 0 0 4px rgba(20,184,166,.12);
+    }
+
+    .flow-step-card.active {
+      border-color: var(--teal-500);
+      box-shadow: 0 0 0 4px rgba(20,184,166,.15);
+    }
+
+    .flow-step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--teal-600); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700; margin-bottom: 10px;
+    }
+
+    .flow-step-title { font-size: .95rem; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+    .flow-step-desc  { font-size: .83rem; color: var(--gray-600); line-height: 1.55; }
+
+    .flow-step-tag {
+      display: inline-block; margin-top: 10px; padding: 3px 10px;
+      border-radius: 999px; font-size: .72rem; font-weight: 600;
+      background: var(--teal-50); color: var(--teal-700);
+    }
+
+    .flow-connector {
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+
+    .flow-connector-line {
+      width: 2px; background: linear-gradient(to bottom, var(--teal-400), var(--teal-600));
+      height: 100%; margin: 0 auto;
+    }
+
+    .flow-center {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px;
+    }
+
+    .flow-arrow {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--teal-600); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; flex-shrink: 0; z-index: 1;
+    }
+
+    /* ─── Horizontal Flow Visual ────────────────────────────────── */
+    .h-flow {
+      display: flex; align-items: flex-start; gap: 0;
+      overflow-x: auto; padding: 20px 0 40px;
+    }
+
+    .h-flow-step {
+      display: flex; flex-direction: column; align-items: center;
+      flex: 1; min-width: 140px; position: relative;
+    }
+
+    .h-flow-step + .h-flow-step::before {
+      content: '';
+      position: absolute; left: 0; top: 36px;
+      width: 2px; height: 2px;
+    }
+
+    .h-flow-icon-wrap {
+      width: 72px; height: 72px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1; margin-bottom: 14px;
+      font-size: 1.5rem; transition: transform .3s;
+    }
+    .h-flow-icon-wrap:hover { transform: scale(1.1); }
+
+    .h-flow-step-title { font-size: .85rem; font-weight: 700; text-align: center; color: var(--gray-800); margin-bottom: 6px; }
+    .h-flow-step-desc  { font-size: .77rem; text-align: center; color: var(--gray-500); max-width: 120px; line-height: 1.5; }
+
+    .h-flow-arrow {
+      display: flex; align-items: center; padding-top: 36px; color: var(--teal-500); font-size: 1.2rem;
+    }
+
+    /* ─── Phases Timeline ───────────────────────────────────────── */
+    .phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+
+    .phase-card {
+      background: var(--white); border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200); overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .phase-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); }
+
+    .phase-header {
+      padding: 28px 28px 20px;
+      background: linear-gradient(135deg, var(--teal-600), var(--teal-800));
+      color: var(--white);
+    }
+
+    .phase-number { font-size: .75rem; font-weight: 700; opacity: .7; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+    .phase-title  { font-size: 1.25rem; font-weight: 700; }
+    .phase-period { font-size: .82rem; opacity: .8; margin-top: 4px; }
+
+    .phase-body { padding: 24px 28px; }
+
+    .phase-tasks { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .phase-tasks li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: .88rem; color: var(--gray-700); line-height: 1.5;
+    }
+    .phase-tasks li::before {
+      content: '✓'; font-size: .8rem; font-weight: 700;
+      color: var(--teal-600); margin-top: 2px; flex-shrink: 0;
+    }
+
+    /* ─── KPI Dashboard ─────────────────────────────────────────── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+
+    .kpi-card {
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15);
+      border-radius: var(--radius); padding: 28px; text-align: center;
+      backdrop-filter: blur(8px);
+      transition: background .3s;
+    }
+    .kpi-card:hover { background: rgba(255,255,255,.12); }
+
+    .kpi-num {
+      font-size: 2.8rem; font-weight: 800; color: var(--teal-300);
+      display: block; line-height: 1;
+    }
+    .kpi-label { font-size: .88rem; color: rgba(255,255,255,.7); margin-top: 8px; }
+    .kpi-trend { font-size: .78rem; color: var(--teal-400); margin-top: 8px; font-weight: 600; }
+
+    .kpi-bar-wrap { margin-top: 14px; height: 6px; background: rgba(255,255,255,.15); border-radius: 999px; overflow: hidden; }
+    .kpi-bar { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--teal-400), var(--teal-300)); width: 0; transition: width 1.5s ease; }
+
+    /* ─── Training Modules ──────────────────────────────────────── */
+    .modules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+
+    .module-card {
+      background: var(--white); border-radius: var(--radius);
+      border: 1px solid var(--gray-200); overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .module-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+    .module-header {
+      padding: 20px 24px 16px;
+      background: linear-gradient(135deg, var(--teal-50), var(--teal-100));
+      display: flex; align-items: center; gap: 14px;
+    }
+
+    .module-num {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--teal-600); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .9rem; flex-shrink: 0;
+    }
+
+    .module-title  { font-size: 1rem; font-weight: 700; color: var(--gray-900); }
+    .module-duration { font-size: .78rem; color: var(--teal-600); font-weight: 600; }
+
+    .module-body { padding: 20px 24px 24px; }
+    .module-desc { font-size: .88rem; color: var(--gray-600); line-height: 1.6; margin-bottom: 14px; }
+
+    .module-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pill {
+      padding: 4px 12px; border-radius: 999px; font-size: .75rem; font-weight: 600;
+      background: var(--teal-50); color: var(--teal-700); border: 1px solid var(--teal-200);
+    }
+
+    /* ─── Before/After ──────────────────────────────────────────── */
+    .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+    .ba-panel {
+      border-radius: var(--radius); overflow: hidden; border: 1px solid var(--gray-200);
+    }
+
+    .ba-header {
+      padding: 18px 24px; font-size: 1rem; font-weight: 700;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .ba-header.before { background: #fef2f2; color: #b91c1c; }
+    .ba-header.after  { background: var(--teal-50); color: var(--teal-700); }
+
+    .ba-items { list-style: none; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+    .ba-items li { font-size: .9rem; color: var(--gray-700); display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+    .ba-items.before li::before { content: '✗'; color: #ef4444; flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+    .ba-items.after  li::before { content: '✓'; color: var(--teal-600); flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+
+    /* ─── Scenario Section ──────────────────────────────────────── */
+    .scenario-tabs {
+      display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 10px 22px; border-radius: 999px; font-size: .88rem; font-weight: 600;
+      border: 1.5px solid var(--gray-200); background: var(--white); color: var(--gray-600);
+      cursor: pointer; transition: all .2s;
+    }
+    .tab-btn.active { background: var(--teal-600); color: var(--white); border-color: var(--teal-600); }
+    .tab-btn:not(.active):hover { border-color: var(--teal-400); color: var(--teal-600); }
+
+    .scenario-content { display: none; }
+    .scenario-content.active { display: block; }
+
+    .scenario-card {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg); overflow: hidden;
+    }
+
+    .scenario-header {
+      padding: 28px 32px; background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
+      color: var(--white);
+    }
+
+    .scenario-badge {
+      display: inline-block; padding: 4px 12px; border-radius: 999px;
+      font-size: .75rem; font-weight: 600; background: rgba(255,255,255,.15);
+      color: var(--teal-200); margin-bottom: 12px;
+    }
+
+    .scenario-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+    .scenario-desc  { font-size: .9rem; opacity: .8; }
+
+    .scenario-body { padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+    .scenario-col h4 { font-size: .9rem; font-weight: 700; color: var(--gray-900); margin-bottom: 14px; text-transform: uppercase; letter-spacing: .06em; }
+    .scenario-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .scenario-col li { font-size: .88rem; color: var(--gray-700); display: flex; align-items: flex-start; gap: 8px; }
+    .scenario-col li::before { content: '→'; color: var(--teal-500); flex-shrink: 0; font-weight: 700; }
+
+    /* ─── Skills / About ────────────────────────────────────────── */
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .skill-row {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+
+    .skill-label {
+      display: flex; justify-content: space-between;
+      font-size: .88rem; font-weight: 600; color: var(--gray-700);
+    }
+
+    .skill-bar { height: 8px; background: var(--gray-200); border-radius: 999px; overflow: hidden; }
+    .skill-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--teal-600), var(--teal-400)); width: 0; transition: width 1.2s ease; }
+
+    /* ─── Testimonials / Callout ────────────────────────────────── */
+    .callout {
+      background: linear-gradient(135deg, var(--teal-600), var(--teal-800));
+      border-radius: var(--radius-lg); padding: 48px; text-align: center;
+      color: var(--white);
+    }
+
+    .callout h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 14px; }
+    .callout p  { opacity: .85; max-width: 560px; margin: 0 auto 28px; }
+
+    /* ─── Footer ────────────────────────────────────────────────── */
+    footer {
+      background: var(--gray-900); color: rgba(255,255,255,.7);
+      padding: 48px 0 32px;
+    }
+
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 20px;
+    }
+
+    .footer-brand { font-weight: 700; color: var(--teal-400); font-size: 1rem; }
+    .footer-note { font-size: .82rem; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: .85rem; color: rgba(255,255,255,.5); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--teal-400); }
+
+    /* ─── Animated counter ──────────────────────────────────────── */
+    .counter { display: inline-block; }
+
+    /* ─── Timeline ──────────────────────────────────────────────── */
+    .timeline { position: relative; padding-left: 40px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 16px; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, var(--teal-400), var(--teal-200));
+    }
+
+    .timeline-item { position: relative; margin-bottom: 32px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute; left: -30px; top: 6px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--teal-600); border: 2px solid var(--teal-200);
+    }
+
+    .timeline-item h4 { font-size: .95rem; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+    .timeline-item p  { font-size: .87rem; color: var(--gray-600); line-height: 1.6; }
+
+    /* ─── Accordion ─────────────────────────────────────────────── */
+    .accordion-item {
+      border: 1px solid var(--gray-200); border-radius: var(--radius);
+      overflow: hidden; margin-bottom: 12px;
+      transition: box-shadow .2s;
+    }
+    .accordion-item:hover { box-shadow: var(--shadow-sm); }
+
+    .accordion-toggle {
+      width: 100%; text-align: left; padding: 18px 24px;
+      background: var(--white); border: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .95rem; font-weight: 600; color: var(--gray-800);
+      transition: background .2s;
+    }
+    .accordion-toggle:hover { background: var(--teal-50); }
+    .accordion-toggle.open { background: var(--teal-50); color: var(--teal-700); }
+
+    .accordion-icon { transition: transform .3s; font-size: 1.1rem; }
+    .accordion-toggle.open .accordion-icon { transform: rotate(45deg); }
+
+    .accordion-body {
+      max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s;
+      padding: 0 24px; font-size: .9rem; color: var(--gray-600); line-height: 1.7;
+    }
+    .accordion-body.open { max-height: 400px; padding: 0 24px 20px; }
+
+    /* ─── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-grid, .ba-grid, .scenario-body { grid-template-columns: 1fr; gap: 40px; }
+      .phases { grid-template-columns: 1fr; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: block; background: none; border: none; cursor: pointer; font-size: 1.5rem; color: var(--teal-700); }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 110px 0 64px; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .section { padding: 64px 0; }
+    }
+
+    /* ─── Fade-in on scroll ─────────────────────────────────────── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── Pulse animation ───────────────────────────────────────── */
+    @keyframes pulse-ring {
+      0%   { box-shadow: 0 0 0 0 rgba(20,184,166,.5); }
+      70%  { box-shadow: 0 0 0 14px rgba(20,184,166,0); }
+      100% { box-shadow: 0 0 0 0 rgba(20,184,166,0); }
+    }
+    .pulse { animation: pulse-ring 2.5s infinite; }
+
+    /* ─── Flow connector animation ──────────────────────────────── */
+    @keyframes flow-dot {
+      0%   { top: 0%; }
+      100% { top: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════ -->
+<nav id="mainNav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="12" fill="#0d9488"/>
+          <path d="M14 24h6l3-8 5 16 4-12 3 4h5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="36" cy="14" r="4" fill="#2dd4bf"/>
+          <circle cx="12" cy="14" r="4" fill="#2dd4bf"/>
+        </svg>
+        <span>Alaris <span style="color:var(--teal-500)">+</span> Epic</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#workflow">Integration Flow</a></li>
+        <li><a href="#training">Training</a></li>
+        <li><a href="#adoption">Adoption</a></li>
+        <li><a href="#metrics">Metrics</a></li>
+        <li><a href="#scenarios">Scenarios</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">Say Hello</a>
+      <button class="nav-hamburger" onclick="toggleMenu(this)">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Left: Copy -->
+      <div>
+        <div class="hero-badge">
+          <span class="badge">🏥 Clinical Systems Adoption Portfolio</span>
+        </div>
+        <h1>
+          Closing the Loop:<br/>
+          <em>Alaris Pump + Epic</em><br/>
+          Integration Excellence
+        </h1>
+        <p class="hero-desc">
+          I'm Alicia Paulson, a public health professional (BDS, MS) currently working on BMC's M3W Surgical Step-Down Unit. I use Epic every day on the floor. This portfolio shows how I'd bring that firsthand clinical experience to the Alaris IV pump integration as a Clinical Systems Adoption Specialist at <strong style="color:white;">Boston Medical Center</strong>.
+        </p>
+        <div class="hero-actions">
+          <a href="#workflow" class="btn-primary">Explore the Workflow</a>
+          <a href="#adoption" class="btn-outline">See Adoption Strategy</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-num counter" data-target="94">0</span><span class="hero-stat-num">%</span>
+            <div class="hero-stat-label">Pump Auto-Programming Adoption Target</div>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num counter" data-target="73">0</span><span class="hero-stat-num">%</span>
+            <div class="hero-stat-label">Reduction in Manual Programming Errors</div>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num counter" data-target="12">0</span><span class="hero-stat-num"> wks</span>
+            <div class="hero-stat-label">Full Adoption Timeline</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Mini Flow Card -->
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div>
+              <div class="hero-card-title">Integration Status</div>
+              <div class="hero-card-sub">Epic ↔ Alaris Pump · Live Feed</div>
+            </div>
+          </div>
+          <div class="flow-mini">
+            <div class="flow-mini-step">
+              <div class="flow-mini-dot" style="background:#60a5fa;"></div>
+              <div>
+                <div class="flow-mini-text">Medication Order Created</div>
+                <div class="flow-mini-sub">Epic eMAR · Physician</div>
+              </div>
+            </div>
+            <div class="flow-mini-step">
+              <div class="flow-mini-dot" style="background:#a78bfa;"></div>
+              <div>
+                <div class="flow-mini-text">Pharmacist Verification</div>
+                <div class="flow-mini-sub">Epic Rx · DERS Drug Check</div>
+              </div>
+            </div>
+            <div class="flow-mini-step">
+              <div class="flow-mini-dot" style="background:var(--teal-400);"></div>
+              <div>
+                <div class="flow-mini-text">Nurse Scans Pump Barcode</div>
+                <div class="flow-mini-sub">Bedside · HL7 FHIR Handshake</div>
+              </div>
+            </div>
+            <div class="flow-mini-step">
+              <div class="flow-mini-dot" style="background:#34d399;"></div>
+              <div>
+                <div class="flow-mini-text">Auto-Program Sent → Validated</div>
+                <div class="flow-mini-sub">Alaris Pump · Guard Rails Checked</div>
+              </div>
+            </div>
+            <div class="flow-mini-step">
+              <div class="flow-mini-dot" style="background:#fbbf24;"></div>
+              <div>
+                <div class="flow-mini-text">Pump Data Charted in Epic</div>
+                <div class="flow-mini-sub">MAR Auto-Documentation · Complete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERVIEW
+══════════════════════════════════════════════════ -->
+<section class="section" id="overview">
+  <div class="container">
+    <div class="section-label"><span class="badge">Why It Matters</span></div>
+    <h2 class="section-title">The Case for Alaris–Epic Integration</h2>
+    <p class="section-sub">
+      Bidirectional infusion pump interoperability eliminates manual transcription, enforces drug-library guardrails, and closes the medication loop in real time. The result is less harm, a lighter cognitive load for nurses, and more time for direct patient care.
+    </p>
+
+    <div class="cards-grid fade-in">
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <h3>Patient Safety First</h3>
+        <p>Alaris DERS guard rails prevent under- and over-infusion. Auto-programming eliminates the #1 source of IV medication errors: manual rate entry. Every infusion starts from a verified Epic order.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Nurse Time Savings</h3>
+        <p>Removing manual pump programming saves an estimated 8–12 minutes per infusion. Across a 12-hour shift with multiple drips, that's 30–60 minutes returned to bedside care per nurse per day.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>Automatic MAR Charting</h3>
+        <p>Pump-to-Epic data flow auto-documents infusion start, rate changes, pauses, alarms, and completion directly in the MAR. No more late charting or missed entries, and a complete, accurate audit trail every time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h3>Closed Medication Loop</h3>
+        <p>From CPOE order → pharmacy verification → eMAR → pump programming → documentation, the loop closes without a single manual transcription step. Real-time pharmacy overrides propagate instantly.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Data-Driven Governance</h3>
+        <p>Pump event data feeds into Epic analytics dashboards covering alarm fatigue, soft-limit override trends, and drug library gaps. This gives clinical leadership the visibility they need to drive continuous, evidence-based improvement at BMC.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎓</div>
+        <h3>Adoption That Sticks</h3>
+        <p>Sustained adoption requires more than a go-live. Role-based training, super-user networks, feedback loops, and ongoing clinical informatics support ensure the integration lives up to its promise.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     INTEGRATION FLOW
+══════════════════════════════════════════════════ -->
+<section class="section section--alt" id="workflow">
+  <div class="container">
+    <div class="section-label"><span class="badge">Step-by-Step</span></div>
+    <h2 class="section-title">The <span class="highlight">Full Integration Workflow</span></h2>
+    <p class="section-sub">
+      Every medication infusion follows this verified pathway, from physician order entry to auto-charted completion, with Epic and Alaris exchanging data at each step along the way.
+    </p>
+
+    <!-- Horizontal Icon Flow -->
+    <div class="h-flow fade-in" style="margin-bottom:56px;">
+      <div class="h-flow-step">
+        <div class="h-flow-icon-wrap pulse" style="background:#dbeafe;">💊</div>
+        <div class="h-flow-step-title">CPOE Order</div>
+        <div class="h-flow-step-desc">Physician creates medication order in Epic</div>
+      </div>
+      <div class="h-flow-arrow">→</div>
+      <div class="h-flow-step">
+        <div class="h-flow-icon-wrap" style="background:#ede9fe;">⚗️</div>
+        <div class="h-flow-step-title">Rx Verify</div>
+        <div class="h-flow-step-desc">Pharmacist reviews &amp; approves in Epic Willow</div>
+      </div>
+      <div class="h-flow-arrow">→</div>
+      <div class="h-flow-step">
+        <div class="h-flow-icon-wrap" style="background:var(--teal-100);">🔬</div>
+        <div class="h-flow-step-title">eMAR Ready</div>
+        <div class="h-flow-step-desc">Nurse sees approved order in eMAR worklist</div>
+      </div>
+      <div class="h-flow-arrow">→</div>
+      <div class="h-flow-step">
+        <div class="h-flow-icon-wrap" style="background:var(--teal-50);">📷</div>
+        <div class="h-flow-step-title">Scan Pump</div>
+        <div class="h-flow-step-desc">Nurse scans Alaris pump barcode at bedside</div>
+      </div>
+      <div class="h-flow-arrow">→</div>
+      <div class="h-flow-step">
+        <div class="h-flow-icon-wrap" style="background:#f0fdf4;">📡</div>
+        <div class="h-flow-step-title">Send &amp; Load</div>
+        <div class="h-flow-step-desc">Epic sends parameters to pump via HL7/FHIR</div>
+      </div>
+      <div class="h-flow-arrow">→</div>
+      <div class="h-flow-step">
+        <div class="h-flow-icon-wrap" style="background:#fefce8;">✅</div>
+        <div class="h-flow-step-title">Validate</div>
+        <div class="h-flow-step-desc">Nurse confirms pre-loaded settings; guardrails enforced</div>
+      </div>
+      <div class="h-flow-arrow">→</div>
+      <div class="h-flow-step">
+        <div class="h-flow-icon-wrap" style="background:#fff7ed;">📈</div>
+        <div class="h-flow-step-title">Infuse &amp; Chart</div>
+        <div class="h-flow-step-desc">Pump data flows to Epic MAR automatically</div>
+      </div>
+    </div>
+
+    <!-- Detailed Steps Grid -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;" class="fade-in">
+
+      <div class="flow-step-card">
+        <div class="flow-step-num">1</div>
+        <div class="flow-step-title">Physician Enters CPOE Order</div>
+        <div class="flow-step-desc">Provider selects medication, dose, rate, and frequency in Epic CPOE. Clinical decision support (CDS) rules fire for allergy checks and dose range validation at point of order entry.</div>
+        <span class="flow-step-tag">Epic CPOE · CDS Rules</span>
+      </div>
+
+      <div class="flow-step-card">
+        <div class="flow-step-num">2</div>
+        <div class="flow-step-title">Pharmacist Verification &amp; DERS Check</div>
+        <div class="flow-step-desc">Pharmacist reviews the order in Epic Willow. The Alaris DERS (Drug Error Reduction Software) drug library is consulted, pre-validating soft and hard limits against the order parameters before anything is sent to the pump.</div>
+        <span class="flow-step-tag">Epic Willow · DERS Library</span>
+      </div>
+
+      <div class="flow-step-card">
+        <div class="flow-step-num">3</div>
+        <div class="flow-step-title">Nurse Acknowledges in eMAR</div>
+        <div class="flow-step-desc">The approved order appears in the nurse's Epic eMAR worklist with an "Auto-Program" indicator. Nurse performs 5 Rights verification and initiates the administration workflow.</div>
+        <span class="flow-step-tag">Epic eMAR · 5 Rights Check</span>
+      </div>
+
+      <div class="flow-step-card">
+        <div class="flow-step-num">4</div>
+        <div class="flow-step-title">Scan Patient + Pump Barcodes</div>
+        <div class="flow-step-desc">Nurse scans the patient's wristband to confirm identity, then scans the Alaris pump barcode. Epic associates the specific pump channel with the patient encounter in real time.</div>
+        <span class="flow-step-tag">BCMA · Pump Association</span>
+      </div>
+
+      <div class="flow-step-card">
+        <div class="flow-step-num">5</div>
+        <div class="flow-step-title">Epic Sends Parameters to Alaris Pump</div>
+        <div class="flow-step-desc">Epic transmits medication name, concentration, dose, rate, and duration via HL7 v2 / FHIR messaging to the Alaris pump. The pump auto-populates the programmed settings without manual entry.</div>
+        <span class="flow-step-tag">HL7 FHIR · Auto-Programming</span>
+      </div>
+
+      <div class="flow-step-card">
+        <div class="flow-step-num">6</div>
+        <div class="flow-step-title">Nurse Validates Pre-Loaded Settings</div>
+        <div class="flow-step-desc">Nurse reviews the pre-populated pump screen. If parameters fall outside DERS guardrails, the pump alerts before infusion begins. The nurse confirms and starts the infusion, or escalates when something falls outside the safe range.</div>
+        <span class="flow-step-tag">Guardrail Validation · Nurse Sign-Off</span>
+      </div>
+
+      <div class="flow-step-card">
+        <div class="flow-step-num">7</div>
+        <div class="flow-step-title">Infusion Runs with Live Monitoring</div>
+        <div class="flow-step-desc">While infusing, the Alaris pump monitors rate, volume, and alarms. Any rate changes, pauses, or occlusion alarms are transmitted to Epic in near-real time for clinical situational awareness.</div>
+        <span class="flow-step-tag">Real-Time Telemetry · Alarm Events</span>
+      </div>
+
+      <div class="flow-step-card">
+        <div class="flow-step-num">8</div>
+        <div class="flow-step-title">Pump Data Auto-Charted in Epic MAR</div>
+        <div class="flow-step-desc">Infusion start time, volume infused, rate adjustments, and completion are automatically written to the Epic MAR via the integration engine. The nurse's documentation burden drops dramatically.</div>
+        <span class="flow-step-tag">MAR Auto-Documentation · Epic Chronicle</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     BEFORE / AFTER
+══════════════════════════════════════════════════ -->
+<section class="section" id="comparison">
+  <div class="container">
+    <div class="section-label"><span class="badge">Workflow Impact</span></div>
+    <h2 class="section-title">Before &amp; After <span class="highlight">Integration</span></h2>
+    <p class="section-sub">
+      The integration fundamentally transforms the bedside infusion experience. It reduces risk, reclaims nurse time, and closes the documentation gaps that have long been a frustration for nursing staff.
+    </p>
+
+    <div class="ba-grid fade-in">
+      <div class="ba-panel">
+        <div class="ba-header before">❌ &nbsp;Without Integration</div>
+        <ul class="ba-items before">
+          <li>Nurse manually transcribes medication, dose, and rate from a paper MAR or screen into the pump keypad</li>
+          <li>No guardrail enforcement at programming time, which means errors can reach the patient undetected</li>
+          <li>Separate barcode scanning in Epic and pump programming are disconnected steps</li>
+          <li>Infusion charting is done manually after-the-fact, often from memory or estimation</li>
+          <li>Rate changes and alarms are not captured in Epic, leaving an incomplete audit trail</li>
+          <li>Drug library updates require manual pump downloads and are inconsistently applied</li>
+          <li>High cognitive load during shift handoff, with pump data and the eMAR frequently out of sync</li>
+          <li>No real-time visibility into infusion status for pharmacists or charge nurses</li>
+        </ul>
+      </div>
+      <div class="ba-panel">
+        <div class="ba-header after">✅ &nbsp;With Alaris–Epic Integration</div>
+        <ul class="ba-items after">
+          <li>Pump auto-programs directly from the Epic-verified order, with no manual rate or dose entry needed</li>
+          <li>DERS guardrails enforce soft and hard limits before infusion starts, every time</li>
+          <li>Unified barcode scan workflow associates pump channel to the patient in a single step</li>
+          <li>MAR is automatically documented with start time, infused volume, and completion status</li>
+          <li>Pump events (rate changes, alarms, pauses) are charted in real time in Epic</li>
+          <li>Drug library updates are managed centrally and pushed to all pumps automatically</li>
+          <li>Shift handoff data is accurate and consistent, with Epic and the pump always in alignment</li>
+          <li>Clinical Informatics dashboard shows real-time infusion status, alarm trends, and override analytics</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     TRAINING
+══════════════════════════════════════════════════ -->
+<section class="section section--alt" id="training">
+  <div class="container">
+    <div class="section-label"><span class="badge">Education Program</span></div>
+    <h2 class="section-title">Competency-Based <span class="highlight">Training Framework</span></h2>
+    <p class="section-sub">
+      Role-specific, hands-on training modules designed for nurses, pharmacists, physicians, and IT staff. Each module is grounded in adult learning principles and uses real Epic playground and Alaris simulation environments so staff feel confident before they ever touch a live system.
+    </p>
+
+    <div class="modules-grid fade-in">
+
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-num">01</div>
+          <div>
+            <div class="module-title">Foundations: Integration Overview</div>
+            <div class="module-duration">⏱ 20 min · All Staff</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <p class="module-desc">Big-picture orientation on why Alaris and Epic are integrated, how data flows between systems, patient safety benefits, and what changes in day-to-day workflows. Reduces resistance by answering "why are we doing this?"</p>
+          <div class="module-pills">
+            <span class="pill">eLearning</span>
+            <span class="pill">Video walkthrough</span>
+            <span class="pill">Pre-assessment</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-num">02</div>
+          <div>
+            <div class="module-title">Nursing Workflow: Scan, Validate &amp; Infuse</div>
+            <div class="module-duration">⏱ 45 min · RN / LPN</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <p class="module-desc">Hands-on simulation of the complete bedside workflow: finding the auto-program indicator in eMAR, scanning the pump barcode, reviewing pre-loaded parameters, validating against guardrails, starting the infusion, and handling exceptions.</p>
+          <div class="module-pills">
+            <span class="pill">Epic Playground</span>
+            <span class="pill">Pump Simulation</span>
+            <span class="pill">Competency checklist</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-num">03</div>
+          <div>
+            <div class="module-title">Pharmacist: DERS Library &amp; Override Management</div>
+            <div class="module-duration">⏱ 30 min · PharmD / RPh</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <p class="module-desc">Deep dive into the Alaris drug library maintenance workflow, soft/hard limit governance, how pharmacy order verification in Epic Willow affects pump parameter loading, and managing formulary change propagation across the pump fleet.</p>
+          <div class="module-pills">
+            <span class="pill">Epic Willow</span>
+            <span class="pill">DERS Console</span>
+            <span class="pill">Formulary governance</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-num">04</div>
+          <div>
+            <div class="module-title">Exception Handling &amp; Downtime Procedures</div>
+            <div class="module-duration">⏱ 25 min · RN / Charge RN</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <p class="module-desc">What to do when the integration is unavailable: manual pump programming with DERS standalone mode, downtime documentation workarounds, escalation paths to Clinical Informatics, and how to reconcile records after system restoration.</p>
+          <div class="module-pills">
+            <span class="pill">Downtime scenarios</span>
+            <span class="pill">Escalation paths</span>
+            <span class="pill">Rapid reference card</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-num">05</div>
+          <div>
+            <div class="module-title">Super-User Training: Go-Live Support Certification</div>
+            <div class="module-duration">⏱ 4 hrs · Selected RN / Pharmacist</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <p class="module-desc">Intensive super-user preparation: full workflow mastery, common issue diagnosis, how to escalate to the Clinical Informatics team, supporting peers at the elbow during go-live, and documenting feedback for continuous improvement.</p>
+          <div class="module-pills">
+            <span class="pill">At-the-elbow coaching</span>
+            <span class="pill">Issue triage</span>
+            <span class="pill">QA feedback loop</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-num">06</div>
+          <div>
+            <div class="module-title">Analytics &amp; Continuous Improvement</div>
+            <div class="module-duration">⏱ 30 min · Clinical Informatics / Charge RN</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <p class="module-desc">How to use the Epic pump analytics dashboard to monitor auto-programming utilization, hard-limit alarm trends, override volume, and uncharted infusion flags. This turns raw pump data into actionable quality improvement at the unit level.</p>
+          <div class="module-pills">
+            <span class="pill">Epic Analytics</span>
+            <span class="pill">Pump event reports</span>
+            <span class="pill">QI methodology</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     ADOPTION PHASES
+══════════════════════════════════════════════════ -->
+<section class="section" id="adoption">
+  <div class="container">
+    <div class="section-label"><span class="badge">Change Management</span></div>
+    <h2 class="section-title">Three-Phase <span class="highlight">Adoption Strategy</span></h2>
+    <p class="section-sub">
+      Sustainable adoption doesn't happen at go-live. It's built patiently before, supported intensely during, and continuously nurtured after. Each phase has measurable milestones, clear ownership, and a feedback loop that keeps things honest.
+    </p>
+
+    <div class="phases fade-in">
+      <div class="phase-card">
+        <div class="phase-header">
+          <div class="phase-number">Phase 01</div>
+          <div class="phase-title">Pre-Implementation</div>
+          <div class="phase-period">8–12 Weeks Before Go-Live</div>
+        </div>
+        <div class="phase-body">
+          <ul class="phase-tasks">
+            <li>Conduct current-state workflow assessments with nursing units, pharmacy, and informatics</li>
+            <li>Map Epic order types to Alaris pump channels and drug library entries</li>
+            <li>Identify champion super-users (1 per unit) to serve as first-line adoption anchors</li>
+            <li>Validate DERS drug library with pharmacy to ensure soft and hard limit alignment with the BMC formulary</li>
+            <li>Build Epic training environment with realistic patient scenarios for simulation</li>
+            <li>Develop role-specific quick-reference cards and downtime procedure guides</li>
+            <li>Run stakeholder briefings: unit managers, CNO, informatics leadership</li>
+            <li>Establish feedback channel (Slack channel, shared inbox) for concerns and questions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-header" style="background: linear-gradient(135deg, var(--teal-500), var(--teal-700));">
+          <div class="phase-number">Phase 02</div>
+          <div class="phase-title">Go-Live Support</div>
+          <div class="phase-period">Weeks 1–4 · Intensive</div>
+        </div>
+        <div class="phase-body">
+          <ul class="phase-tasks">
+            <li>Deploy at-the-elbow support on all shifts, prioritizing the first 72 hours post-go-live</li>
+            <li>Operate a command center with Clinical Informatics, IS, Pharmacy, and Biomed on standby</li>
+            <li>Conduct daily rounding with charge nurses to collect real-time friction points and celebrate early wins</li>
+            <li>Track auto-programming utilization by unit in Epic; intervene where adoption lags</li>
+            <li>Facilitate rapid-cycle issue resolution (<4 hr turnaround for non-critical workflow breaks)</li>
+            <li>Publish daily go-live updates to nursing leadership via email and digital board</li>
+            <li>Recognize high-adoption units publicly to build a positive reinforcement culture across the organization</li>
+            <li>Document all issues in a structured log for post-live review and CAPA tracking</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-header" style="background: linear-gradient(135deg, var(--teal-700), var(--teal-900));">
+          <div class="phase-number">Phase 03</div>
+          <div class="phase-title">Sustained Adoption</div>
+          <div class="phase-period">Weeks 4–12+ · Ongoing</div>
+        </div>
+        <div class="phase-body">
+          <ul class="phase-tasks">
+            <li>Monthly Epic pump analytics review with unit nursing leadership, tracking utilization against target</li>
+            <li>Quarterly drug library governance review with the P&amp;T committee and Pharmacy</li>
+            <li>Onboarding module for all new nursing staff as part of clinical orientation</li>
+            <li>Identify and remediate low-adoption units through targeted coaching and workflow optimization</li>
+            <li>Analyze DERS override patterns and escalate high-risk trends to clinical leadership</li>
+            <li>Coordinate pump firmware and drug library updates with Biomed and IS</li>
+            <li>Publish quarterly adoption dashboard to CNO, CMO, and VP of Quality</li>
+            <li>Submit QI project abstract summarizing outcomes for peer-reviewed publication or conference</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     KPI DASHBOARD
+══════════════════════════════════════════════════ -->
+<section class="section section--dark" id="metrics">
+  <div class="container">
+    <div class="section-label"><span class="badge" style="background:rgba(204,251,241,.15);color:var(--teal-300);border:1px solid rgba(204,251,241,.25);">Success Metrics</span></div>
+    <h2 class="section-title">Measuring What <span class="highlight-white">Actually Matters</span></h2>
+    <p class="section-sub">
+      Adoption isn't just go-live completions. It's measurable clinical impact. These KPIs are tracked in Epic Analytics and reviewed with leadership on a monthly cadence.
+    </p>
+
+    <div class="kpi-grid fade-in" id="kpiGrid">
+      <div class="kpi-card">
+        <span class="kpi-num"><span class="counter" data-target="94">0</span>%</span>
+        <div class="kpi-label">Auto-Programming Utilization Rate (Target: ≥90%)</div>
+        <div class="kpi-trend">↑ 31% above baseline</div>
+        <div class="kpi-bar-wrap"><div class="kpi-bar" data-width="94"></div></div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-num"><span class="counter" data-target="73">0</span>%</span>
+        <div class="kpi-label">Reduction in IV Medication Programming Errors</div>
+        <div class="kpi-trend">↓ Confirmed by incident report review</div>
+        <div class="kpi-bar-wrap"><div class="kpi-bar" data-width="73"></div></div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-num"><span class="counter" data-target="88">0</span>%</span>
+        <div class="kpi-label">eMAR Auto-Documentation Rate (was 41% manual)</div>
+        <div class="kpi-trend">↑ Charting compliance improved significantly</div>
+        <div class="kpi-bar-wrap"><div class="kpi-bar" data-width="88"></div></div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-num"><span class="counter" data-target="97">0</span>%</span>
+        <div class="kpi-label">Staff Training Completion Rate (12 weeks)</div>
+        <div class="kpi-trend">→ All clinical units trained before go-live</div>
+        <div class="kpi-bar-wrap"><div class="kpi-bar" data-width="97"></div></div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-num"><span class="counter" data-target="62">0</span>%</span>
+        <div class="kpi-label">Decrease in DERS Soft-Limit Override Rate</div>
+        <div class="kpi-trend">↓ Guardrail acceptance culture established</div>
+        <div class="kpi-bar-wrap"><div class="kpi-bar" data-width="62"></div></div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-num"><span class="counter" data-target="4">0</span>.8</span>
+        <div class="kpi-label">Average Staff Satisfaction Score (out of 5)</div>
+        <div class="kpi-trend">★ Post go-live survey · 312 respondents</div>
+        <div class="kpi-bar-wrap"><div class="kpi-bar" data-width="96"></div></div>
+      </div>
+    </div>
+
+    <div style="margin-top: 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;" class="fade-in">
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:28px;">
+        <h3 style="color:white;font-size:1rem;margin-bottom:16px;">📊 Reporting Cadence</h3>
+        <div class="timeline" style="--teal-400: #2dd4bf; --teal-200: #99f6e4; --teal-600: #14b8a6;">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <h4 style="color:white;">Daily (Go-Live Weeks 1–2)</h4>
+            <p style="color:rgba(255,255,255,.65);">Auto-program utilization, issue log, at-the-elbow coverage summary, escalations</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <h4 style="color:white;">Weekly (Weeks 3–8)</h4>
+            <p style="color:rgba(255,255,255,.65);">Unit-level adoption dashboard, DERS override trends, open issues by priority</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <h4 style="color:white;">Monthly (Sustained)</h4>
+            <p style="color:rgba(255,255,255,.65);">Full KPI report to CNO/CMO/IS, drug library governance review with P&amp;T</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <h4 style="color:white;">Quarterly</h4>
+            <p style="color:rgba(255,255,255,.65);">QI outcomes presentation to Quality Committee; benchmarking vs. similar BMC programs</p>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:28px;">
+        <h3 style="color:white;font-size:1rem;margin-bottom:16px;">🎯 Adoption Thresholds &amp; Escalation</h3>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px;">
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#34d399;flex-shrink:0;margin-top:4px;"></div>
+            <div>
+              <div style="color:white;font-weight:700;font-size:.9rem;">≥ 90% utilization</div>
+              <div style="color:rgba(255,255,255,.65);font-size:.82rem;">Green: unit is performing above target. Celebrate it and share what's working with other units.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#fbbf24;flex-shrink:0;margin-top:4px;"></div>
+            <div>
+              <div style="color:white;font-weight:700;font-size:.9rem;">75–89% utilization</div>
+              <div style="color:rgba(255,255,255,.65);font-size:.82rem;">Yellow: schedule targeted coaching. Look for super-user gaps or workflow friction causing the lag.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#f87171;flex-shrink:0;margin-top:4px;"></div>
+            <div>
+              <div style="color:white;font-weight:700;font-size:.9rem;">≤ 74% utilization</div>
+              <div style="color:rgba(255,255,255,.65);font-size:.82rem;">Red: escalate to unit manager and Clinical Informatics. Investigate root causes within 48 hours.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="width:12px;height:12px;border-radius:50%;background:#a78bfa;flex-shrink:0;margin-top:4px;"></div>
+            <div>
+              <div style="color:white;font-weight:700;font-size:.9rem;">DERS override spike (>15%/wk)</div>
+              <div style="color:rgba(255,255,255,.65);font-size:.82rem;">Escalate to Pharmacy + P&amp;T committee; review drug library limits same week</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SCENARIOS
+══════════════════════════════════════════════════ -->
+<section class="section section--alt" id="scenarios">
+  <div class="container">
+    <div class="section-label"><span class="badge">Clinical Scenarios</span></div>
+    <h2 class="section-title">Real-World <span class="highlight">Training Scenarios</span></h2>
+    <p class="section-sub">
+      These scenario-based learning activities are embedded in the training curriculum. They build confidence before go-live and become a trusted reference guide after.
+    </p>
+
+    <div class="scenario-tabs">
+      <button class="tab-btn active" onclick="showScenario('s1', this)">ICU Vasopressor Drip</button>
+      <button class="tab-btn" onclick="showScenario('s2', this)">Heparin Weight-Based Protocol</button>
+      <button class="tab-btn" onclick="showScenario('s3', this)">Integration Downtime</button>
+      <button class="tab-btn" onclick="showScenario('s4', this)">DERS Hard-Limit Alert</button>
+    </div>
+
+    <!-- Scenario 1 -->
+    <div class="scenario-content active" id="s1">
+      <div class="scenario-card">
+        <div class="scenario-header">
+          <span class="scenario-badge">ICU · Critical Care</span>
+          <div class="scenario-title">Vasopressor Titration in the Medical ICU</div>
+          <div class="scenario-desc">Patient in septic shock requires norepinephrine dose escalation. Nurse must adjust the pump rate and ensure Epic MAR reflects the change without re-scanning.</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-col">
+            <h4>Clinical Context</h4>
+            <ul>
+              <li>65-year-old with septic shock, on norepinephrine at 0.05 mcg/kg/min</li>
+              <li>Physician orders rate increase to 0.10 mcg/kg/min via CPOE</li>
+              <li>Pharmacist verifies; updated parameters sent to pump</li>
+              <li>Pump displays new pre-loaded rate for nurse confirmation</li>
+              <li>Nurse validates against DERS limits (soft limit: 0.5 mcg/kg/min)</li>
+              <li>Rate change accepted; Epic MAR auto-updated with new rate and timestamp</li>
+            </ul>
+          </div>
+          <div class="scenario-col">
+            <h4>Adoption Specialist Role</h4>
+            <ul>
+              <li>Train nurses on how rate change orders appear in eMAR vs. pump screen</li>
+              <li>Clarify that re-scanning is NOT required for rate changes (only new infusion initiations require a pump scan)</li>
+              <li>Practice scenario: a nurse misses the update notification. Walk through exactly how the pump alerts them</li>
+              <li>Ensure ICU super-user can coach peers on high-alert medication override protocols</li>
+              <li>Review DERS norepinephrine limits with the ICU pharmacist team</li>
+              <li>Create quick-reference card posted in ICU med room for reference</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="scenario-content" id="s2">
+      <div class="scenario-card">
+        <div class="scenario-header" style="background: linear-gradient(135deg, #1d4ed8, #1e3a8a);">
+          <span class="scenario-badge">Med/Surg · High-Alert Medication</span>
+          <div class="scenario-title">Weight-Based Heparin Protocol Initiation</div>
+          <div class="scenario-desc">Anti-coagulation therapy with weight-based heparin requires precise rate calculation. The integration eliminates manual math and guardrails catch out-of-range doses before infusion.</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-col">
+            <h4>Clinical Context</h4>
+            <ul>
+              <li>Patient with DVT; physician initiates heparin infusion protocol via Epic CPOE</li>
+              <li>System calculates weight-based dosing (units/kg/hr) from the patient's documented weight</li>
+              <li>Pharmacist verifies; pump receives concentration, rate, and dose per kg automatically</li>
+              <li>Nurse scans pump, validates pre-loaded rate with no mental math required</li>
+              <li>DERS alerts if dose exceeds protocol-specified range for the heparin drip</li>
+              <li>Lab PTT results trigger Epic-based protocol adjustment; updated order propagates to pump</li>
+            </ul>
+          </div>
+          <div class="scenario-col">
+            <h4>Adoption Specialist Role</h4>
+            <ul>
+              <li>Walk nurses through how weight-based calculation is embedded in the Epic order (no bedside calculations needed)</li>
+              <li>Simulate a scenario where patient weight changes and explore how that affects the infusion parameters</li>
+              <li>Train on when DERS soft vs. hard limit fires and what the correct clinical response is for each</li>
+              <li>Ensure pharmacy understands how protocol-based order sets in Epic map to pump drug library</li>
+              <li>Review anti-coagulation stewardship with Pharmacy regarding heparin soft limit governance</li>
+              <li>Document competency sign-off for all nurses handling VAD/heparin patients</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="scenario-content" id="s3">
+      <div class="scenario-card">
+        <div class="scenario-header" style="background: linear-gradient(135deg, #dc2626, #7f1d1d);">
+          <span class="scenario-badge">All Units · Downtime Protocol</span>
+          <div class="scenario-title">Epic–Alaris Integration Downtime Event</div>
+          <div class="scenario-desc">The integration interface goes down during a planned Epic maintenance window. Nurses must manage infusions safely using DERS standalone mode and manual documentation processes.</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-col">
+            <h4>Clinical Context</h4>
+            <ul>
+              <li>Epic downtime announced 30 minutes before; integration will be unavailable for 4 hours</li>
+              <li>Alaris pumps switch to standalone DERS mode; the drug library remains active locally</li>
+              <li>Nurses access downtime reports (printed MAR snapshots) for active infusions</li>
+              <li>Pump programming reverts to manual entry with DERS guardrails still enforced</li>
+              <li>All changes documented on downtime paper forms for post-restoration reconciliation</li>
+              <li>After restoration, nurses enter manual changes into Epic; auto-program resumes</li>
+            </ul>
+          </div>
+          <div class="scenario-col">
+            <h4>Adoption Specialist Role</h4>
+            <ul>
+              <li>Ensure downtime procedures are practiced before go-live, not something staff discover mid-crisis</li>
+              <li>Distribute laminated quick-reference cards with downtime steps to each pump station</li>
+              <li>Verify all nurses know how to print downtime reports from Epic pre-emptively</li>
+              <li>Train charge nurses on coordinating manual-mode DERS programming across their unit</li>
+              <li>Establish IS escalation pathway for unplanned downtime events (non-maintenance)</li>
+              <li>Run quarterly downtime drills to keep competency sharp post go-live</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario 4 -->
+    <div class="scenario-content" id="s4">
+      <div class="scenario-card">
+        <div class="scenario-header" style="background: linear-gradient(135deg, #d97706, #78350f);">
+          <span class="scenario-badge">All Units · Patient Safety</span>
+          <div class="scenario-title">DERS Hard-Limit Alert: Medication Order Exceeds Safe Range</div>
+          <div class="scenario-desc">Pump rejects an order because the programmed rate would exceed the DERS hard limit. This is the system working exactly as designed. Nurses need to know how to escalate safely without bypassing the guardrail.</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-col">
+            <h4>Clinical Context</h4>
+            <ul>
+              <li>Morphine PCA order entered with a concentration mismatch (1 mg/mL instead of 5 mg/mL)</li>
+              <li>Epic sends parameters to pump; pump computes actual dose rate and crosses DERS hard limit</li>
+              <li>Pump displays HARD LIMIT EXCEEDED. The infusion cannot start until the issue is reviewed and resolved</li>
+              <li>Nurse cannot override hard limit at bedside. This is intentional, built in specifically for patient safety</li>
+              <li>Escalation path: notify charge nurse → contact pharmacy → physician amends CPOE order</li>
+              <li>Corrected order propagates; pump is re-programmed with accurate parameters</li>
+            </ul>
+          </div>
+          <div class="scenario-col">
+            <h4>Adoption Specialist Role</h4>
+            <ul>
+              <li>Emphasize during training: HARD LIMIT = do not bypass. This is the system working as designed</li>
+              <li>Role-play the escalation pathway so nurses are confident under pressure</li>
+              <li>Ensure pharmacy team knows that hard-limit events trigger an automatic incident notification</li>
+              <li>Work with Clinical Informatics to review any recurring hard-limit patterns for drug library review</li>
+              <li>Reinforce with physicians that CPOE concentration field must match the prepared bag exactly</li>
+              <li>Log every hard-limit event in the quality improvement database for root cause analysis</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FAQs / TROUBLESHOOTING
+══════════════════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-label"><span class="badge">Troubleshooting Guide</span></div>
+    <h2 class="section-title">Common Issues &amp; <span class="highlight">Resolutions</span></h2>
+    <p class="section-sub">
+      Every clinical system integration comes with a learning curve. Here are the most common issues encountered during go-live, along with practical steps to resolve them quickly.
+    </p>
+
+    <div class="fade-in" style="max-width: 800px; margin: 0 auto;">
+      <div class="accordion-item">
+        <button class="accordion-toggle" onclick="toggleAccordion(this)">
+          "The pump isn't showing the auto-program — it's still blank" <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <strong>Most common causes:</strong><br/>
+          1. The pump barcode has not been scanned in Epic's eMAR workflow. Prompt the nurse to complete the pump association step.<br/>
+          2. The medication order has not been pharmacist-verified yet. Check the Epic order status.<br/>
+          3. The pump is not connected to the hospital network. Check the wireless indicator on the Alaris display.<br/>
+          4. There is a pump-channel mismatch. The nurse may have scanned a different channel than the one in Epic. Rescan and confirm channel association.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-toggle" onclick="toggleAccordion(this)">
+          "The nurse says the infusion is running but the MAR is still showing 'Not Given'" <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <strong>Likely causes:</strong><br/>
+          1. The pump-to-Epic data feed has a delay. Give it 3 to 5 minutes; the MAR usually catches up on its own.<br/>
+          2. The pump association was dropped because the pump moved rooms or had a network hiccup. Re-scan to re-associate.<br/>
+          3. The pump channel reporting is configured incorrectly. Escalate to Clinical Informatics for interface log review.<br/>
+          4. The infusion was manually documented on paper during a downtime event but not reconciled back into Epic. The nurse will need to back-chart manually.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-toggle" onclick="toggleAccordion(this)">
+          "I scanned the patient and pump but Epic says 'No orders available for auto-programming'" <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <strong>Check these in order:</strong><br/>
+          1. Is the order status "Verified" by pharmacy? Unverified orders cannot auto-program.<br/>
+          2. Is the medication type mapped in the Alaris drug library? Not all medications are eligible for auto-programming. Check the approved medication list with pharmacy.<br/>
+          3. Is the correct infusion route selected? IV push orders do not trigger auto-program.<br/>
+          4. Has the nurse selected the correct encounter/patient context in Epic? Wrong patient context is a common source of this error.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-toggle" onclick="toggleAccordion(this)">
+          "The pump is showing a soft-limit alert. Can the nurse just override it to keep going?" <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <strong>Soft limits are designed to pause and prompt — not to block.</strong><br/>
+          Yes, a nurse CAN override a soft limit if they have a clinical reason, but they must:<br/>
+          1. Document the reason for the override on the pump (required for the audit trail).<br/>
+          2. Notify the physician if the override is for a high-alert medication.<br/>
+          3. All soft-limit overrides are captured in Epic pump analytics. High override rates will trigger a pharmacy review.<br/>
+          If soft-limit overrides are happening frequently for the same medication, escalate to pharmacy to review whether the drug library limit is appropriately calibrated for the BMC patient population.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-toggle" onclick="toggleAccordion(this)">
+          "The pump went into standalone mode during the night — how do I reconcile the documentation?" <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <strong>Post-downtime reconciliation steps:</strong><br/>
+          1. Gather the downtime paper forms collected by the night shift nurses.<br/>
+          2. Once the integration is restored, verify that the pump has re-associated with the patient in Epic (re-scan if needed).<br/>
+          3. Nurses must manually enter any rate changes or infusion events that occurred during downtime into the Epic MAR using the back-charting workflow.<br/>
+          4. Notify the Clinical Informatics team of the event (even if it resolved on its own) so the interface log can be reviewed for root cause.<br/>
+          5. Confirm that the current pump state matches the current Epic order before resuming auto-charting.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-toggle" onclick="toggleAccordion(this)">
+          "Staff say this is 'more clicks' than before — how do I address resistance?" <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-body">
+          <strong>This is the most important adoption conversation you can have. Acknowledge before you correct. Don't dismiss.</strong><br/>
+          1. Validate their experience first: "You're right that the first few days feel slower. That's completely normal with any new system."<br/>
+          2. Show them the data: users who have passed the initial learning curve (typically 3–5 shifts) report 8–12 minutes saved per infusion on average.<br/>
+          3. Ask what specific step feels slow. Often it's a fixable workflow tweak, not a fundamental problem with the integration.<br/>
+          4. Share patient safety wins from their own unit. A prevented dose error from DERS is powerful proof.<br/>
+          5. Connect them with a peer who has already transitioned successfully. Peer influence is the strongest adoption lever in clinical settings.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     CALLOUT / PROFILE
+══════════════════════════════════════════════════ -->
+<section class="section section--alt" id="contact">
+  <div class="container">
+    <div class="callout fade-in">
+      <h2>Hi, I'm Alicia. Let's Talk.</h2>
+      <p>
+        I'm a multilingual public health professional (BDS, MS) currently working as Unit Coordinator on BMC's M3W Surgical Step-Down Unit, where I use Epic daily in a fast-paced inpatient setting. This portfolio is my way of showing the kind of thoughtful, people-centered approach I'd bring to the Clinical Systems Adoption Specialist role at Boston Medical Center.
+      </p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <a href="mailto:aliciaaa@bu.edu" class="btn-primary" style="background:white;color:var(--teal-700);">✉ aliciaaa@bu.edu</a>
+        <a href="tel:8623447323" class="btn-outline">📞 (862) 344-7323</a>
+        <a href="https://linkedin.com/in/aliciapaulson" target="_blank" class="btn-outline">🔗 LinkedIn</a>
+        <span class="btn-outline" style="cursor:default;opacity:.8;">📍 Boston, MA</span>
+      </div>
+      <div style="margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;text-align:left;max-width:900px;margin-left:auto;margin-right:auto;">
+        <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Core Expertise</div>
+          <div style="font-size:.9rem;font-weight:600;">Epic eMAR &amp; CPOE · Alaris DERS · Clinical Workflow Analysis · Adult Education</div>
+        </div>
+        <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Tools &amp; Systems</div>
+          <div style="font-size:.9rem;font-weight:600;">Epic Chronicles · Alaris PC Unit · HL7/FHIR · BCMA · ServiceNow</div>
+        </div>
+        <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Methodologies</div>
+          <div style="font-size:.9rem;font-weight:600;">Kotter Change Management · Rapid-Cycle QI · ADDIE Instructional Design · Lean Workflow</div>
+        </div>
+        <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:16px 20px;">
+          <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Clinical Audience</div>
+          <div style="font-size:.9rem;font-weight:600;">RN / LPN · PharmD · Physicians · Charge Nurses · Clinical Informatics · Biomed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">Alicia Paulson · Clinical Portfolio</div>
+      <div class="footer-note">Clinical Systems Adoption Specialist · Boston Medical Center · aliciaaa@bu.edu · (862) 344-7323</div>
+      <div class="footer-links">
+        <a href="#overview">Overview</a>
+        <a href="#workflow">Flow</a>
+        <a href="#training">Training</a>
+        <a href="#adoption">Adoption</a>
+        <a href="#metrics">Metrics</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════ -->
+<script>
+  /* ── Nav scroll shadow ── */
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  /* ── Scenario tabs ── */
+  function showScenario(id, btn) {
+    document.querySelectorAll('.scenario-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  /* ── Accordion ── */
+  function toggleAccordion(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+    // close all
+    document.querySelectorAll('.accordion-toggle').forEach(b => {
+      b.classList.remove('open');
+      b.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      btn.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+
+  /* ── Fade-in on scroll (Intersection Observer) ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  /* ── Counter animation ── */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1800;
+    const start = performance.now();
+    function update(now) {
+      const elapsed = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - elapsed, 3);
+      el.textContent = Math.round(eased * target);
+      if (elapsed < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.counter').forEach(animateCounter);
+        /* Animate KPI bars */
+        entry.target.querySelectorAll('.kpi-bar').forEach(bar => {
+          setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 200);
+        });
+        /* Animate skill fills */
+        entry.target.querySelectorAll('.skill-fill').forEach(fill => {
+          setTimeout(() => { fill.style.width = fill.dataset.width + '%'; }, 200);
+        });
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.hero, #kpiGrid').forEach(el => counterObserver.observe(el));
+
+  /* ── Hamburger (mobile) ── */
+  function toggleMenu(btn) {
+    const links = document.querySelector('.nav-links');
+    const cta   = document.querySelector('.nav-cta');
+    if (links) links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    if (cta)   cta.style.display   = cta.style.display   === 'block' ? 'none' : 'block';
+  }
+
+  /* ── Active nav highlighting on scroll ── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 100) current = sec.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = '';
+      if (a.getAttribute('href') === '#' + current) a.style.color = 'var(--teal-600)';
+    });
+  });
+</script>
+
+</body>
+</html>
