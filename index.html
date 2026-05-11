@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alaris + Epic Integration | Clinical Systems Adoption Portfolio</title>
 
-  <!-- Google tag (gtag.js) — replace G-XXXXXXXXXX with your Measurement ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-72P0H86RTW"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
+    gtag('config', 'G-72P0H86RTW');
   </script>
   <style>
     /* ─── Reset & Variables ─────────────────────────────────────── */
@@ -742,35 +742,42 @@
             <div class="flow-mini-step">
               <div class="flow-mini-dot" style="background:#60a5fa;"></div>
               <div>
-                <div class="flow-mini-text">Medication Order Created</div>
-                <div class="flow-mini-sub">Epic eMAR · Physician</div>
+                <div class="flow-mini-text">Scan Patient</div>
+                <div class="flow-mini-sub">Patient ID Band · Epic eMAR</div>
               </div>
             </div>
             <div class="flow-mini-step">
               <div class="flow-mini-dot" style="background:#a78bfa;"></div>
               <div>
-                <div class="flow-mini-text">Pharmacist Verification</div>
-                <div class="flow-mini-sub">Epic Rx · DERS Drug Check</div>
+                <div class="flow-mini-text">Scan Medication</div>
+                <div class="flow-mini-sub">5 Rights Check · Barcode Verification</div>
               </div>
             </div>
             <div class="flow-mini-step">
               <div class="flow-mini-dot" style="background:var(--teal-400);"></div>
               <div>
-                <div class="flow-mini-text">Nurse Scans Pump Barcode</div>
-                <div class="flow-mini-sub">Bedside · HL7 FHIR Handshake</div>
+                <div class="flow-mini-text">Scan Pump</div>
+                <div class="flow-mini-sub">Alaris Barcode · Channel Association</div>
               </div>
             </div>
             <div class="flow-mini-step">
               <div class="flow-mini-dot" style="background:#34d399;"></div>
               <div>
-                <div class="flow-mini-text">Auto-Program Sent → Validated</div>
-                <div class="flow-mini-sub">Alaris Pump · Guard Rails Checked</div>
+                <div class="flow-mini-text">Send Details to Pump</div>
+                <div class="flow-mini-sub">HL7/FHIR · Auto-Programming</div>
+              </div>
+            </div>
+            <div class="flow-mini-step">
+              <div class="flow-mini-dot" style="background:#fb923c;"></div>
+              <div>
+                <div class="flow-mini-text">Start Pump</div>
+                <div class="flow-mini-sub">DERS Guardrails Enforced · Infusion Begins</div>
               </div>
             </div>
             <div class="flow-mini-step">
               <div class="flow-mini-dot" style="background:#fbbf24;"></div>
               <div>
-                <div class="flow-mini-text">Pump Data Charted in Epic</div>
+                <div class="flow-mini-text">Validate Pump Data in Epic</div>
                 <div class="flow-mini-sub">MAR Auto-Documentation · Complete</div>
               </div>
             </div>
@@ -811,7 +818,7 @@
       <div class="card">
         <div class="card-icon">🔄</div>
         <h3>Closed Medication Loop</h3>
-        <p>From CPOE order → pharmacy verification → eMAR → pump programming → documentation, the loop closes without a single manual transcription step. Real-time pharmacy overrides propagate instantly.</p>
+        <p>From the physician's order through pharmacy verification to the bedside scan sequence and auto-charting, every step is connected digitally. No manual transcription, no re-keying. A pharmacy override propagates to the pump in real time.</p>
       </div>
       <div class="card">
         <div class="card-icon">📊</div>
@@ -832,54 +839,48 @@
 ══════════════════════════════════════════════════ -->
 <section class="section section--alt" id="workflow">
   <div class="container">
-    <div class="section-label"><span class="badge">Step-by-Step</span></div>
+    <div class="section-label"><span class="badge">6-Step Bedside Workflow</span></div>
     <h2 class="section-title">The <span class="highlight">Full Integration Workflow</span></h2>
     <p class="section-sub">
-      Every medication infusion follows this verified pathway, from physician order entry to auto-charted completion, with Epic and Alaris exchanging data at each step along the way.
+      Every medication infusion follows this six-step bedside workflow, from patient identification to real-time documentation in Epic, with Alaris and Epic exchanging data at each step along the way.
     </p>
 
     <!-- Horizontal Icon Flow -->
     <div class="h-flow fade-in" style="margin-bottom:56px;">
       <div class="h-flow-step">
-        <div class="h-flow-icon-wrap pulse" style="background:#dbeafe;">💊</div>
-        <div class="h-flow-step-title">CPOE Order</div>
-        <div class="h-flow-step-desc">Physician creates medication order in Epic</div>
+        <div class="h-flow-icon-wrap pulse" style="background:#dbeafe;">🪪</div>
+        <div class="h-flow-step-title">Scan Patient</div>
+        <div class="h-flow-step-desc">Scan patient ID band to confirm identity</div>
       </div>
       <div class="h-flow-arrow">→</div>
       <div class="h-flow-step">
-        <div class="h-flow-icon-wrap" style="background:#ede9fe;">⚗️</div>
-        <div class="h-flow-step-title">Rx Verify</div>
-        <div class="h-flow-step-desc">Pharmacist reviews &amp; approves in Epic Willow</div>
+        <div class="h-flow-icon-wrap" style="background:#ede9fe;">💊</div>
+        <div class="h-flow-step-title">Scan Medication</div>
+        <div class="h-flow-step-desc">Verify the medication bag against the Epic order</div>
       </div>
       <div class="h-flow-arrow">→</div>
       <div class="h-flow-step">
-        <div class="h-flow-icon-wrap" style="background:var(--teal-100);">🔬</div>
-        <div class="h-flow-step-title">eMAR Ready</div>
-        <div class="h-flow-step-desc">Nurse sees approved order in eMAR worklist</div>
-      </div>
-      <div class="h-flow-arrow">→</div>
-      <div class="h-flow-step">
-        <div class="h-flow-icon-wrap" style="background:var(--teal-50);">📷</div>
+        <div class="h-flow-icon-wrap" style="background:var(--teal-100);">📷</div>
         <div class="h-flow-step-title">Scan Pump</div>
-        <div class="h-flow-step-desc">Nurse scans Alaris pump barcode at bedside</div>
+        <div class="h-flow-step-desc">Scan Alaris pump barcode to associate it with the patient</div>
       </div>
       <div class="h-flow-arrow">→</div>
       <div class="h-flow-step">
         <div class="h-flow-icon-wrap" style="background:#f0fdf4;">📡</div>
-        <div class="h-flow-step-title">Send &amp; Load</div>
-        <div class="h-flow-step-desc">Epic sends parameters to pump via HL7/FHIR</div>
+        <div class="h-flow-step-title">Send Details to Pump</div>
+        <div class="h-flow-step-desc">Epic sends dose, rate &amp; parameters via HL7/FHIR</div>
+      </div>
+      <div class="h-flow-arrow">→</div>
+      <div class="h-flow-step">
+        <div class="h-flow-icon-wrap" style="background:#fff7ed;">▶️</div>
+        <div class="h-flow-step-title">Start Pump</div>
+        <div class="h-flow-step-desc">Nurse confirms pre-loaded settings and starts infusion</div>
       </div>
       <div class="h-flow-arrow">→</div>
       <div class="h-flow-step">
         <div class="h-flow-icon-wrap" style="background:#fefce8;">✅</div>
-        <div class="h-flow-step-title">Validate</div>
-        <div class="h-flow-step-desc">Nurse confirms pre-loaded settings; guardrails enforced</div>
-      </div>
-      <div class="h-flow-arrow">→</div>
-      <div class="h-flow-step">
-        <div class="h-flow-icon-wrap" style="background:#fff7ed;">📈</div>
-        <div class="h-flow-step-title">Infuse &amp; Chart</div>
-        <div class="h-flow-step-desc">Pump data flows to Epic MAR automatically</div>
+        <div class="h-flow-step-title">Validate in Epic</div>
+        <div class="h-flow-step-desc">Pump data auto-charts to the Epic MAR in real time</div>
       </div>
     </div>
 
@@ -888,58 +889,44 @@
 
       <div class="flow-step-card">
         <div class="flow-step-num">1</div>
-        <div class="flow-step-title">Physician Enters CPOE Order</div>
-        <div class="flow-step-desc">Provider selects medication, dose, rate, and frequency in Epic CPOE. Clinical decision support (CDS) rules fire for allergy checks and dose range validation at point of order entry.</div>
-        <span class="flow-step-tag">Epic CPOE · CDS Rules</span>
+        <div class="flow-step-title">Scan Patient</div>
+        <div class="flow-step-desc">The nurse scans the barcode on the patient's ID band at the bedside. Epic confirms identity, matches it to the active encounter, and pulls up the pending medication orders in the eMAR. This first scan is what kicks off the barcode medication administration (BCMA) workflow.</div>
+        <span class="flow-step-tag">Patient ID Band · Identity Verification · Epic eMAR</span>
       </div>
 
       <div class="flow-step-card">
         <div class="flow-step-num">2</div>
-        <div class="flow-step-title">Pharmacist Verification &amp; DERS Check</div>
-        <div class="flow-step-desc">Pharmacist reviews the order in Epic Willow. The Alaris DERS (Drug Error Reduction Software) drug library is consulted, pre-validating soft and hard limits against the order parameters before anything is sent to the pump.</div>
-        <span class="flow-step-tag">Epic Willow · DERS Library</span>
+        <div class="flow-step-title">Scan Medication</div>
+        <div class="flow-step-desc">The nurse scans the barcode on the medication bag. Epic cross-references it against the verified order, checking drug name, concentration, and expiration. This is where the 5 Rights (right patient, right drug, right dose, right route, right time) are validated electronically, before the infusion is ever connected to a pump.</div>
+        <span class="flow-step-tag">5 Rights Verification · Medication Matching</span>
       </div>
 
       <div class="flow-step-card">
         <div class="flow-step-num">3</div>
-        <div class="flow-step-title">Nurse Acknowledges in eMAR</div>
-        <div class="flow-step-desc">The approved order appears in the nurse's Epic eMAR worklist with an "Auto-Program" indicator. Nurse performs 5 Rights verification and initiates the administration workflow.</div>
-        <span class="flow-step-tag">Epic eMAR · 5 Rights Check</span>
+        <div class="flow-step-title">Scan Pump</div>
+        <div class="flow-step-desc">The nurse scans the Alaris pump barcode (or the specific channel label). Epic associates that physical pump channel with the patient encounter and the active medication order, creating the link that makes auto-programming possible.</div>
+        <span class="flow-step-tag">Pump Association · Channel Matching</span>
       </div>
 
       <div class="flow-step-card">
         <div class="flow-step-num">4</div>
-        <div class="flow-step-title">Scan Patient + Pump Barcodes</div>
-        <div class="flow-step-desc">Nurse scans the patient's wristband to confirm identity, then scans the Alaris pump barcode. Epic associates the specific pump channel with the patient encounter in real time.</div>
-        <span class="flow-step-tag">BCMA · Pump Association</span>
+        <div class="flow-step-title">Send Details to Pump</div>
+        <div class="flow-step-desc">Epic transmits the medication name, concentration, dose, rate, and infusion duration to the Alaris pump via HL7/FHIR messaging. The pump auto-populates all programming fields — no manual keypad entry required.</div>
+        <span class="flow-step-tag">HL7/FHIR · Auto-Programming</span>
       </div>
 
       <div class="flow-step-card">
         <div class="flow-step-num">5</div>
-        <div class="flow-step-title">Epic Sends Parameters to Alaris Pump</div>
-        <div class="flow-step-desc">Epic transmits medication name, concentration, dose, rate, and duration via HL7 v2 / FHIR messaging to the Alaris pump. The pump auto-populates the programmed settings without manual entry.</div>
-        <span class="flow-step-tag">HL7 FHIR · Auto-Programming</span>
+        <div class="flow-step-title">Start Pump</div>
+        <div class="flow-step-desc">The nurse reviews the pre-loaded settings on the pump screen. DERS guardrails are enforced automatically — a soft-limit prompts for confirmation, a hard-limit blocks infusion until the order is reviewed. Once confirmed, the nurse starts the infusion.</div>
+        <span class="flow-step-tag">DERS Guardrails · Nurse Sign-Off · Infusion Start</span>
       </div>
 
       <div class="flow-step-card">
         <div class="flow-step-num">6</div>
-        <div class="flow-step-title">Nurse Validates Pre-Loaded Settings</div>
-        <div class="flow-step-desc">Nurse reviews the pre-populated pump screen. If parameters fall outside DERS guardrails, the pump alerts before infusion begins. The nurse confirms and starts the infusion, or escalates when something falls outside the safe range.</div>
-        <span class="flow-step-tag">Guardrail Validation · Nurse Sign-Off</span>
-      </div>
-
-      <div class="flow-step-card">
-        <div class="flow-step-num">7</div>
-        <div class="flow-step-title">Infusion Runs with Live Monitoring</div>
-        <div class="flow-step-desc">While infusing, the Alaris pump monitors rate, volume, and alarms. Any rate changes, pauses, or occlusion alarms are transmitted to Epic in near-real time for clinical situational awareness.</div>
-        <span class="flow-step-tag">Real-Time Telemetry · Alarm Events</span>
-      </div>
-
-      <div class="flow-step-card">
-        <div class="flow-step-num">8</div>
-        <div class="flow-step-title">Pump Data Auto-Charted in Epic MAR</div>
-        <div class="flow-step-desc">Infusion start time, volume infused, rate adjustments, and completion are automatically written to the Epic MAR via the integration engine. The nurse's documentation burden drops dramatically.</div>
-        <span class="flow-step-tag">MAR Auto-Documentation · Epic Chronicle</span>
+        <div class="flow-step-title">Validate Pump Data in Epic</div>
+        <div class="flow-step-desc">As the infusion runs, the Alaris pump sends real-time data back to Epic: start time, rate, volume infused, any alarms or rate changes, and completion status. All of this is written directly to the MAR — no manual charting needed.</div>
+        <span class="flow-step-tag">MAR Auto-Documentation · Real-Time Telemetry</span>
       </div>
 
     </div>
@@ -976,7 +963,7 @@
         <ul class="ba-items after">
           <li>Pump auto-programs directly from the Epic-verified order, with no manual rate or dose entry needed</li>
           <li>DERS guardrails enforce soft and hard limits before infusion starts, every time</li>
-          <li>Unified barcode scan workflow associates pump channel to the patient in a single step</li>
+          <li>Three-step scan sequence (patient ID band, medication bag, pump barcode) unifies identity verification, drug verification, and pump association in one continuous bedside workflow</li>
           <li>MAR is automatically documented with start time, infused volume, and completion status</li>
           <li>Pump events (rate changes, alarms, pauses) are charted in real time in Epic</li>
           <li>Drug library updates are managed centrally and pushed to all pumps automatically</li>
@@ -1028,7 +1015,7 @@
           </div>
         </div>
         <div class="module-body">
-          <p class="module-desc">Hands-on simulation of the complete bedside workflow: finding the auto-program indicator in eMAR, scanning the pump barcode, reviewing pre-loaded parameters, validating against guardrails, starting the infusion, and handling exceptions.</p>
+          <p class="module-desc">Hands-on simulation of the complete bedside workflow: scanning the patient ID band, scanning the medication bag, scanning the pump barcode, reviewing the pre-loaded parameters that Epic sends to the pump, validating against DERS guardrails, starting the infusion, and handling exceptions when something doesn't match.</p>
           <div class="module-pills">
             <span class="pill">Epic Playground</span>
             <span class="pill">Pump Simulation</span>
@@ -1331,12 +1318,12 @@
           <div class="scenario-col">
             <h4>Clinical Context</h4>
             <ul>
-              <li>65-year-old with septic shock, on norepinephrine at 0.05 mcg/kg/min</li>
-              <li>Physician orders rate increase to 0.10 mcg/kg/min via CPOE</li>
-              <li>Pharmacist verifies; updated parameters sent to pump</li>
-              <li>Pump displays new pre-loaded rate for nurse confirmation</li>
+              <li>65-year-old with septic shock; initial norepinephrine infusion was set up following the full 6-step workflow (scan patient ID band, scan medication bag, scan pump, details sent to pump, infusion started, pump data validated in Epic)</li>
+              <li>Physician orders a rate increase to 0.10 mcg/kg/min via CPOE</li>
+              <li>Pharmacist verifies; updated parameters are sent to the associated pump automatically</li>
+              <li>Pump displays the new pre-loaded rate for nurse confirmation — no re-scanning required for a rate change on an already-associated pump</li>
               <li>Nurse validates against DERS limits (soft limit: 0.5 mcg/kg/min)</li>
-              <li>Rate change accepted; Epic MAR auto-updated with new rate and timestamp</li>
+              <li>Rate change accepted; Epic MAR auto-updates with the new rate and timestamp</li>
             </ul>
           </div>
           <div class="scenario-col">
@@ -1368,16 +1355,18 @@
             <ul>
               <li>Patient with DVT; physician initiates heparin infusion protocol via Epic CPOE</li>
               <li>System calculates weight-based dosing (units/kg/hr) from the patient's documented weight</li>
-              <li>Pharmacist verifies; pump receives concentration, rate, and dose per kg automatically</li>
-              <li>Nurse scans pump, validates pre-loaded rate with no mental math required</li>
-              <li>DERS alerts if dose exceeds protocol-specified range for the heparin drip</li>
-              <li>Lab PTT results trigger Epic-based protocol adjustment; updated order propagates to pump</li>
+              <li>Pharmacist verifies; pump receives concentration, rate, and dose per kg automatically once the nurse completes scanning</li>
+              <li>Nurse scans the patient ID band, scans the heparin bag barcode, then scans the Alaris pump barcode to associate the channel</li>
+              <li>Epic sends the pre-calculated parameters to the pump; nurse validates the pre-loaded rate with no mental math required</li>
+              <li>DERS alerts if the dose exceeds the protocol-specified range for the heparin drip</li>
+              <li>Lab PTT results trigger an Epic-based protocol adjustment; the updated order propagates to the pump automatically</li>
             </ul>
           </div>
           <div class="scenario-col">
             <h4>Adoption Specialist Role</h4>
             <ul>
-              <li>Walk nurses through how weight-based calculation is embedded in the Epic order (no bedside calculations needed)</li>
+              <li>Walk nurses through the full 3-scan sequence (patient ID band, medication bag, pump) and how each scan triggers a different safety check in Epic</li>
+              <li>Clarify that weight-based calculation is embedded in the Epic order — no bedside math needed</li>
               <li>Simulate a scenario where patient weight changes and explore how that affects the infusion parameters</li>
               <li>Train on when DERS soft vs. hard limit fires and what the correct clinical response is for each</li>
               <li>Ensure pharmacy understands how protocol-based order sets in Epic map to pump drug library</li>
@@ -1479,7 +1468,7 @@
         </button>
         <div class="accordion-body">
           <strong>Most common causes:</strong><br/>
-          1. The pump barcode has not been scanned in Epic's eMAR workflow. Prompt the nurse to complete the pump association step.<br/>
+          1. The full 3-scan sequence is not complete. Confirm the nurse has scanned the patient ID band, then the medication bag, then the pump barcode in that order. Skipping any step breaks the association chain in Epic.<br/>
           2. The medication order has not been pharmacist-verified yet. Check the Epic order status.<br/>
           3. The pump is not connected to the hospital network. Check the wireless indicator on the Alaris display.<br/>
           4. There is a pump-channel mismatch. The nurse may have scanned a different channel than the one in Epic. Rescan and confirm channel association.
@@ -1501,7 +1490,7 @@
 
       <div class="accordion-item">
         <button class="accordion-toggle" onclick="toggleAccordion(this)">
-          "I scanned the patient and pump but Epic says 'No orders available for auto-programming'" <span class="accordion-icon">+</span>
+          "I scanned the patient, medication, and pump but Epic says 'No orders available for auto-programming'" <span class="accordion-icon">+</span>
         </button>
         <div class="accordion-body">
           <strong>Check these in order:</strong><br/>
@@ -1580,7 +1569,7 @@
         </div>
         <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:16px 20px;">
           <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Tools &amp; Systems</div>
-          <div style="font-size:.9rem;font-weight:600;">Epic Chronicles · Alaris PC Unit · HL7/FHIR · BCMA · ServiceNow</div>
+          <div style="font-size:.9rem;font-weight:600;">Epic Hyperspace · Alaris PC Unit · HL7/FHIR · BCMA Workflow · REDCap</div>
         </div>
         <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:16px 20px;">
           <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Methodologies</div>
